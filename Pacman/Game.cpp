@@ -12,22 +12,33 @@ void Game::Init()
 		if (!border->loadFromFile("data/border.png"))
 			THROW;
 
-       
-
 		texture = new Texture;
 		sprite = new Sprite;
 	}
+
+    {
+        pacmanp = new Image;
+        if (!pacmanp->loadFromFile("data/pacman.png"))
+            THROW;
+    }
 
 	{
 		window = new RenderWindow(VideoMode(800, 850), "Pacman Game"); 
 	}
 
+    {
+        pacman = new Pacman(2,2);
+        pacman->Init();
+    }
+
+    
 }
 
 void Game::Draw()
 {
 	window->clear();
 	DrawField();
+    pacman->DrawPacman(window, pacmanp);
 	window->display();
 }
 

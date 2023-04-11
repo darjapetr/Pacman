@@ -9,35 +9,15 @@ private:
     char** data; // dvimatis masyvas skirtas saugoti map'o reiksmes
 
 public:
-    Map(int map_width, int map_height) {
-        width = map_width;
-        height = map_height;
-        data = new char* [height];
-        for (int i = 0; i < height; i++) {
-            data[i] = new char[width];
-        }
-    }
+    Map(int map_width, int map_height);
 
-    ~Map() {
-        for (int i = 0; i < height; i++) {
-            delete[] data[i];
-        }
-        delete[] data;
-    }
+    ~Map();
 
-    void setData(int row, int col, char value) {
-        data[row][col] = value;
-    }
+    void setData(int row, int col, char value);
 
-    char getData(int row, int col) {
-        return data[row][col];
-    }
+    char getData(int row, int col);
 
-    int getWidth() {
-        return width;
-    }
+    int getWidth();
 
-    int getHeight() {
-        return height;
-    }
+    int getHeight();
 };
