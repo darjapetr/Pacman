@@ -20,27 +20,27 @@ Pacman::Pacman(int start_x, int start_y)
 	Direction::RIGHT; 
 	score = 0;
 }
+
 void Pacman::Init()
 {
 	Pacman Pacman(2, 2);
-	
 	texture = new Texture;
 	sprite = new Sprite;
 }
 
-int Pacman::getX() {
+int Pacman::GetX() {
 	return x;
 }
 
-void Pacman::setX(int new_x) {
+void Pacman::SetX(int new_x) {
 	x = new_x;
 }
 
-int Pacman::getY() {
+int Pacman::GetY() {
 	return y;
 }
 
-void Pacman::setY(int new_y) {
+void Pacman::SetY(int new_y) {
 	y = new_y;
 }
 

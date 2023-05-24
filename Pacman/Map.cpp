@@ -1,35 +1,66 @@
 #include "Game.h"
+#include <fstream>
+#include <iostream>
 using namespace std;
 using namespace sf;
 
-Map::Map(int map_width, int map_height) {
-    width = map_width;
-    height = map_height;
-    data = new char* [height];
-    for (int i = 0; i < height; i++) {
-        data[i] = new char[width];
-    }
+Map::Map() :  height(0), width(0)
+{
+    data[height][width];
 }
 
-Map::~Map() {
-    for (int i = 0; i < height; i++) {
-        delete[] data[i];
-    }
-    delete[] data;
+Map::~Map() 
+{
+    delete texture;
+    delete sprite;
 }
 
-void Map::setData(int row, int col, char value) {
+void Map::DrawMap(RenderWindow* window, Image* border, int row, int col) const
+{
+    texture->loadFromImage(*border);
+    sprite->setTexture(*texture);
+    sprite->setScale(Vector2f(0.5f, 0.5f));
+    sprite->setPosition(col * 25, row * 25);
+    window->draw(*sprite);
+}
+
+void Map::ReadData()
+{
+    ifstream fd("data/parameters.txt");
+    if (!fd) throw "parameters.txt file not found";
+    else
+    {
+        fd >> width >> height;
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                fd >> data[i][j]; 
+            }
+        }
+    }
+    fd.close();
+}
+
+void Map::Init()
+{
+    Map Map();
+    texture = new Texture;
+    sprite = new Sprite;
+}
+
+void Map::SetData(int row, int col, char value) {
     data[row][col] = value;
 }
 
-char Map::getData(int row, int col) {
+char Map::GetData(int row, int col) {
     return data[row][col];
 }
 
-int Map::getWidth() {
+int Map::GetWidth() {
     return width;
 }
 
-int Map::getHeight() {
+int Map::GetHeight() {
     return height;
 }

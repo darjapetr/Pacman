@@ -1,23 +1,24 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include "Exception.h"
-
 using namespace sf;
-class Map {
+
+class Map 
+{
 private:
-    int width, height; // map'o dydis
-    char** data; // dvimatis masyvas skirtas saugoti map'o reiksmes
+    char data[100][100];
+    Texture* texture;
+    Sprite* sprite;
 
 public:
-    Map(int map_width, int map_height);
-
+    int width, height; // map'o dydis
+    Map();
     ~Map();
-
-    void setData(int row, int col, char value);
-
-    char getData(int row, int col);
-
-    int getWidth();
-
-    int getHeight();
+    void DrawMap(RenderWindow* window, Image* border, int col, int row) const;
+    void ReadData();
+    void SetData(int row, int col, char value);
+    void Init();
+    char GetData(int row, int col);
+    int GetWidth();
+    int GetHeight();
 };
