@@ -1,10 +1,9 @@
 #include "Game.h"
 #include <fstream>
-#include <iostream>
 using namespace std;
 using namespace sf;
 
-Map::Map() :  height(0), width(0)
+Map::Map() :  height(31), width(32)
 {
     data[height][width];
 }
@@ -49,18 +48,22 @@ void Map::Init()
     sprite = new Sprite;
 }
 
-void Map::SetData(int row, int col, char value) {
+void Map::SetData(int row, int col, char value) 
+{
     data[row][col] = value;
 }
 
-char Map::GetData(int row, int col) {
+char Map::GetData(int row, int col) 
+{
     return data[row][col];
 }
 
-int Map::GetWidth() {
+int Map::GetWidth() 
+{
     return width;
 }
 
-int Map::GetHeight() {
+int Map::GetHeight() 
+{
     return height;
 }
