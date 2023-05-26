@@ -5,10 +5,11 @@
 using namespace std;
 using namespace sf;
 
-Pacman::Pacman(int start_x, int start_y)
+Pacman::Pacman(int start_x, int start_y, int start_level)
 {
 	x = start_x;
 	y = start_y;
+	level = start_level;
 	Direction::RIGHT; 
 	score = 1;
 }
@@ -57,7 +58,7 @@ void Pacman::ReadData()
 
 void Pacman::Init()
 {
-	Pacman Pacman(1, 14);
+	Pacman Pacman(1, 14, 1);
 	texture = new Texture;
 	sprite = new Sprite;
 }
@@ -128,6 +129,45 @@ void Pacman::Move()
 		{
 			score++;
 			data[new_y][new_x] = ' ';
+			if (score == 362)
+			{
+				level = 2;
+				RestartDots();
+			}
 		}
 	}
+}
+
+void Pacman::RestartDots()
+{
+	for (int i = 0; i < width; i++)
+		for (int j = 0; j < height; j++)
+			if (data[i][j] == ' ') data[i][j] = '.';
+}
+
+void Pacman::DrawLife1(RenderWindow* window, Image* life) const
+{
+	texture->loadFromImage(*life);
+	sprite->setTexture(*texture);
+	sprite->setScale(Vector2f(0.8f, 0.8f));
+	sprite->setPosition(335, 792);
+	window->draw(*sprite);
+}
+
+void Pacman::DrawLife2(RenderWindow* window, Image* life) const
+{
+	texture->loadFromImage(*life);
+	sprite->setTexture(*texture);
+	sprite->setScale(Vector2f(0.8f, 0.8f));
+	sprite->setPosition(385, 792);
+	window->draw(*sprite);
+}
+
+void Pacman::DrawLife3(RenderWindow* window, Image* life) const
+{
+	texture->loadFromImage(*life);
+	sprite->setTexture(*texture);
+	sprite->setScale(Vector2f(0.8f, 0.8f));
+	sprite->setPosition(435, 792);
+	window->draw(*sprite);
 }

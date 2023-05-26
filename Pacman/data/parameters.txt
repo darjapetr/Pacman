@@ -11,11 +11,11 @@ b . . . . . . b b . . . . . . b b . . . . . . b b . . . . . . b
 b b b b b b . b b b b b b b . b b . b b b b b b b . b b b b b b
 - - - - - b . b b b b b b b . b b . b b b b b b b . b - - - - -
 - - - - - b . b b . . . . . . . . . . . . . . b b . b - - - - -
-- - - - - b . b b . b b b b b - - b b b b b . b b . b - - - - -
-b b b b b b . b b . b - - - - - - - - - - b . b b . b b b b b b
-b - . . . . . . . . b - - - - - - - - - - b . . . . . . . . . b
-b b b b b b . b b . b - - - - - - - - - - b . b b . b b b b b b
-- - - - - b . b b . b b b b b b b b b b b b . b b . b - - - - - 
+- - - - - b . b b . b b . . . . . . . . b b . b b . b - - - - -
+b b b b b b . b b . b b . b b p p b b . b b . b b . b b b b b b
+b - . . . . . . . . b b . b - - - - b . b b . . . . . . . . . b
+b b b b b b . b b . b b . b b b b b b . b b . b b . b b b b b b
+- - - - - b . b b . b b . . . . . . . . b b . b b . b - - - - - 
 - - - - - b . b b . . . . . . . . . . . . . . b b . b - - - - -
 - - - - - b . b b . b b b b b b b b b b b b . b b . b - - - - -
 b b b b b b . b b . b b b b b b b b b b b b . b b . b b b b b b
