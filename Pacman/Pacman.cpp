@@ -134,6 +134,16 @@ void Pacman::Move()
 				level = 2;
 				RestartDots();
 			}
+			else if (score == 723)
+			{
+				level = 3;
+				RestartDots();
+			}
+			else if (score == 1084)
+			{
+				level = 4;
+				RestartDots();
+			}
 		}
 	}
 }

@@ -2,29 +2,42 @@
 
 #include <SFML\Graphics.hpp>
 #include "Exception.h"
-#include <random>
+#include <vector>
 using namespace std;
 using namespace sf;
 
-class Ghost
+class GhostBasic
 {
-private:
-	int width, height;
-	char data[100][100];
+protected:
 	Texture* texture;
 	Sprite* sprite;
-	random_device rd;
+	vector<Vector2i> move;
+	unsigned int current_pos;
 	
 public:
 	int x, y;
-
-	Ghost(int start_x, int start_y);
-	~Ghost();
-	
-	void ReadData();
+	GhostBasic(int start_x, int start_y);
+	~GhostBasic();
 	void Init();
-	void DrawGhost1(RenderWindow* window, Image* ghost1) const;
-	void Move();
+	virtual void ReadData();
+	virtual void DrawGhost(RenderWindow* window, Image* ghost1) const;
+	virtual void Move();
+};
 
-	bool GhostMove(int x, int y);
+class Pink : public GhostBasic
+{
+public:
+	Pink(int start_x, int start_y);
+	void ReadData() override;
+	void DrawGhost(RenderWindow* window, Image* ghost1) const override;
+	void Move() override;
+};
+
+class Blue : public GhostBasic
+{
+public:
+	Blue(int start_x, int start_y);
+	void ReadData() override;
+	void DrawGhost(RenderWindow* window, Image* ghost2) const override;
+	void Move() override;
 };

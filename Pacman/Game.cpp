@@ -2,7 +2,6 @@
 #include "Map.h"
 #include "Ghost.h"
 #include <fstream>
-#include <iostream>
 using namespace std;
 using namespace sf;
 
@@ -26,6 +25,8 @@ void Game::Init()
     {
         ghost1 = new Image;
         if (!ghost1->loadFromFile("data/ghost1.png")) THROW;
+        ghost2 = new Image;
+        if (!ghost2->loadFromFile("data/ghost2.png")) THROW;
     }
 
     {
@@ -48,9 +49,15 @@ void Game::Init()
     }
 
     {
-        ghost = new Ghost(15, 14);
-        ghost->Init();
-        ghost->ReadData();
+        ghostp = new Pink(15, 14);
+        ghostp->Init();
+        ghostp->ReadData();
+    }
+
+    {
+        ghostb = new Blue(16, 14);
+        ghostb->Init();
+        ghostb->ReadData();
     }
 
     {
@@ -152,13 +159,21 @@ void Game::Run()
         { 
             pacman->Move();
             Draw(pacman->level);
-
         }
         else if (pacman->level == 2)
         {
-            PacmanOnGhost();
+            PinkPacmanOnGhost();
             pacman->Move();
-            ghost->Move();
+            ghostp->Move();
+            Draw(pacman->level);
+        }
+        else if (pacman->level == 3)
+        {
+            PinkPacmanOnGhost();
+            BluePacmanOnGhost();
+            pacman->Move();
+            ghostp->Move();
+            ghostb->Move();
             Draw(pacman->level);
         }
 	}
@@ -185,9 +200,18 @@ void Game::UpdateKeyboard()
     }
 }
 
-void Game::PacmanOnGhost()
+void Game::PinkPacmanOnGhost()
 {
-    if (pacman->GetX() == ghost->x && pacman->GetY() == ghost->y)
+    if (pacman->GetX() == ghostp->x && pacman->GetY() == ghostp->y)
+    {
+        pacman_dead = true;
+        lifes--;
+    }
+}
+
+void Game::BluePacmanOnGhost()
+{
+    if (pacman->GetX() == ghostb->x && pacman->GetY() == ghostb->y)
     {
         pacman_dead = true;
         lifes--;
@@ -199,7 +223,8 @@ void Game::Draw(int level)
     window->clear();
     DrawField();
     pacman->DrawPacman(window, pacmanp);
-    if(level == 2) ghost->DrawGhost1(window, ghost1);
+    ghostp->DrawGhost(window, ghost1);
+    ghostb->DrawGhost(window, ghost2);
     DrawLifes();
     DrawScore();  
     window->display();
@@ -215,6 +240,8 @@ Game::~Game()
 	delete texture;
 	delete sprite;
     delete pacman;
+    delete ghostp;
+    delete ghostb;
     delete map;
 	delete window;
     delete font;

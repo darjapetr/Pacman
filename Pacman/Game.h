@@ -14,13 +14,15 @@ private:
 	Image* pacmanp;
 	Image* dot;
 	Image* ghost1;
+	Image* ghost2;
 	Image* life;
 	Image* lostlife;
 	Texture* texture;
 	Sprite* sprite;
 	Map* map;
 	Pacman* pacman;
-	Ghost* ghost;
+	GhostBasic* ghostp;
+	GhostBasic* ghostb;
 	RenderWindow* window;
 	Font* font;
 	Text* texts;
@@ -35,7 +37,8 @@ private:
 	void Draw(int level);
 	void DrawField();
 	void UpdateKeyboard();
-	void PacmanOnGhost();
+	void PinkPacmanOnGhost();
+	void BluePacmanOnGhost();
 
 public:
 	void Run();
