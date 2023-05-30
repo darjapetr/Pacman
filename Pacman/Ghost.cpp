@@ -124,4 +124,50 @@ void Blue::Move()
 	if (x == target_pos.x && y == target_pos.y) current_pos = (current_pos + 1) % move.size();
 }
 
+Red::Red(int start_x, int start_y) : GhostBasic(start_x, start_y)
+{
+	x = start_x;
+	y = start_y;
+	current_pos = 0;
+}
+
+void Red::ReadData()
+{
+	int n, ox, oy;
+	ifstream fb("data/ghost3t.txt");
+	if (!fb) throw "ghost3t.txt file not found";
+	else
+	{
+		fb >> n;
+		for (int i = 0; i < n; i++)
+		{
+			fb >> oy >> ox;
+			move.push_back(Vector2i(ox, oy));
+		}
+	}
+	fb.close();
+}
+
+void Red::DrawGhost(RenderWindow* window, Image* ghost3) const
+{
+	texture->loadFromImage(*ghost3);
+	sprite->setTexture(*texture);
+	sprite->setScale(Vector2f(0.55f, 0.55f));
+	sprite->setPosition(x * 25, y * 25);
+	window->draw(*sprite);
+}
+
+void Red::Move()
+{
+	Vector2i target_pos = move[current_pos];
+
+	if (x < target_pos.x) x += 1;
+	else if (x > target_pos.x) x -= 1;
+	else if (y < target_pos.y) y += 1;
+	else if (y > target_pos.y) y -= 1;
+
+	if (x == target_pos.x && y == target_pos.y) current_pos = (current_pos + 1) % move.size();
+	
+}
+
 

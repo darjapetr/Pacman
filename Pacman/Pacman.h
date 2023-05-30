@@ -14,6 +14,8 @@ private:
 	Map* map;
 	Texture* texture;
 	Sprite* sprite;
+	Texture* ltexture;
+	Sprite* lsprite;
 
 public:
 	enum class Direction { UP, DOWN, RIGHT, LEFT };
@@ -29,10 +31,11 @@ public:
 	void DrawLife1(RenderWindow* window, Image* life) const;
 	void DrawLife2(RenderWindow* window, Image* life) const;
 	void DrawLife3(RenderWindow* window, Image* life) const;
+	void DrawLevel(RenderWindow* window, Image* level1) const;
 	void RestartDots();
 	void ReadData();
 	void Init();
-	void Move();
+	void Move(Clock& clock);
 	void UpdateDirection(Direction new_direction);
 	void SetX(int new_x);
 	void SetY(int new_y);

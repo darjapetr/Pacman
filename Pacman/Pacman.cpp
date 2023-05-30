@@ -61,6 +61,8 @@ void Pacman::Init()
 	Pacman Pacman(1, 14, 1);
 	texture = new Texture;
 	sprite = new Sprite;
+	ltexture = new Texture;
+	lsprite = new Sprite;
 }
 
 int Pacman::GetX() 
@@ -91,7 +93,7 @@ void Pacman::UpdateDirection(Direction new_direction)
 bool Pacman::PacmanMove(int x, int y)
 {
 	if (x < 0 || x >= width || y < 0 || y >= height) return false;
-	return data[y][x] != 'b';
+	return data[y][x] != 'b' && data[y][x] != 'p';
 }
 
 int Pacman::GetScore()
@@ -99,7 +101,7 @@ int Pacman::GetScore()
 	return score;
 }
 
-void Pacman::Move()
+void Pacman::Move(Clock& clock)
 {
 	unsigned int new_x = GetX();
 	unsigned int new_y = GetY();
@@ -133,16 +135,19 @@ void Pacman::Move()
 			{
 				level = 2;
 				RestartDots();
+				clock.restart();
 			}
 			else if (score == 723)
 			{
 				level = 3;
 				RestartDots();
+				clock.restart();
 			}
 			else if (score == 1084)
 			{
 				level = 4;
 				RestartDots();
+				clock.restart();
 			}
 		}
 	}
@@ -180,4 +185,13 @@ void Pacman::DrawLife3(RenderWindow* window, Image* life) const
 	sprite->setScale(Vector2f(0.8f, 0.8f));
 	sprite->setPosition(435, 792);
 	window->draw(*sprite);
+}
+
+void Pacman::DrawLevel(RenderWindow* window, Image* level1) const
+{
+	ltexture->loadFromImage(*level1);
+	lsprite->setTexture(*ltexture);
+	lsprite->setScale(Vector2f(0.5f, 0.5f));
+	lsprite->setPosition(175, 225);
+	window->draw(*lsprite);
 }

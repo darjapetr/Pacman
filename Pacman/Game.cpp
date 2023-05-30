@@ -7,10 +7,10 @@ using namespace sf;
 
 void Game::Init()
 {
-	{
-		border = new Image;
-		if (!border->loadFromFile("data/border.png")) THROW;
-	}
+    {
+        border = new Image;
+        if (!border->loadFromFile("data/border.png")) THROW;
+    }
 
     {
         pacmanp = new Image;
@@ -27,6 +27,8 @@ void Game::Init()
         if (!ghost1->loadFromFile("data/ghost1.png")) THROW;
         ghost2 = new Image;
         if (!ghost2->loadFromFile("data/ghost2.png")) THROW;
+        ghost3 = new Image;
+        if (!ghost3->loadFromFile("data/ghost3.png")) THROW;
     }
 
     {
@@ -37,7 +39,22 @@ void Game::Init()
     }
 
     {
-        pacman = new Pacman(1,14,1);
+        level1 = new Image;
+        if (!level1->loadFromFile("data/level1.png")) THROW;
+        level2 = new Image;
+        if (!level2->loadFromFile("data/level2.png")) THROW;
+        level3 = new Image;
+        if (!level3->loadFromFile("data/level3.png")) THROW;
+        level4 = new Image;
+        if (!level4->loadFromFile("data/level4.png")) THROW;
+        youwon = new Image;
+        if (!youwon->loadFromFile("data/youwon.png")) THROW;
+        gameover = new Image;
+        if (!gameover->loadFromFile("data/gameover.png")) THROW;
+    }
+
+    {
+        pacman = new Pacman(1, 14, 1);
         pacman->Init();
         pacman->ReadData();
     }
@@ -59,6 +76,11 @@ void Game::Init()
         ghostb->Init();
         ghostb->ReadData();
     }
+    {
+        ghostr = new Red(17, 14);
+        ghostr->Init();
+        ghostr->ReadData();
+    }
 
     {
         window = new RenderWindow(VideoMode(800, 850), "Pacman Game");
@@ -76,6 +98,11 @@ void Game::Init()
         textl->setFont(*font);
         textl->setCharacterSize(24);
         textl->setPosition(590, map->GetHeight() * 25.8f);
+    }
+
+    {
+        Texture ltexture;
+        Sprite lsprite;
     }
 }
 
@@ -141,40 +168,75 @@ void Game::DrawLifes()
 void Game::Run()
 {
 	Init();
-
+    Clock clock;
+    Time freeze_time = seconds(2.0f);
 	while (window->isOpen())
 	{
 		Event event;
 		while (window->pollEvent(event))
 		{
+            
 			if (event.type == Event::Closed)
 				window->close();
             UpdateKeyboard();
+            
 		}
-
+        
 		if (window->hasFocus() && Keyboard::isKeyPressed(Keyboard::Key::Escape))
 			window->close();
 
-        if (pacman->level == 1)
+        if (lifes > 0 && pacman->GetScore() < 1445)
         { 
-            pacman->Move();
-            Draw(pacman->level);
+            if (pacman->level == 1)
+            { 
+                if(clock.getElapsedTime() > freeze_time) pacman->Move(clock);
+                Draw(pacman->level, clock);
+            }
+        
+            else if (pacman->level == 2)
+            {
+                if (clock.getElapsedTime() > freeze_time)
+                { 
+                    PinkPacmanOnGhost();
+                    pacman->Move(clock);
+                    ghostp->Move();
+                }
+                Draw(pacman->level, clock);
+            }
+            else if (pacman->level == 3)
+            {
+                if (clock.getElapsedTime() > freeze_time)
+                { 
+                    PinkPacmanOnGhost();
+                    BluePacmanOnGhost();
+                    pacman->Move(clock);
+                    ghostp->Move();
+                    ghostb->Move();
+                }
+                Draw(pacman->level, clock);
+            }
+            else if (pacman->level == 4)
+            {
+                if (clock.getElapsedTime() > freeze_time)
+                { 
+                    PinkPacmanOnGhost();
+                    BluePacmanOnGhost();
+                    RedPacmanOnGhost();
+                    pacman->Move(clock);
+                    ghostp->Move();
+                    ghostb->Move();
+                    ghostr->Move();
+                }
+                Draw(pacman->level, clock);
+            }
         }
-        else if (pacman->level == 2)
+        else if (lifes == 0)
         {
-            PinkPacmanOnGhost();
-            pacman->Move();
-            ghostp->Move();
-            Draw(pacman->level);
+            Draw(pacman->level, clock);
         }
-        else if (pacman->level == 3)
+        else if (pacman->GetScore() == 1445)
         {
-            PinkPacmanOnGhost();
-            BluePacmanOnGhost();
-            pacman->Move();
-            ghostp->Move();
-            ghostb->Move();
-            Draw(pacman->level);
+            Draw(pacman->level, clock);
         }
 	}
 }
@@ -218,13 +280,29 @@ void Game::BluePacmanOnGhost()
     }
 }
 
-void Game::Draw(int level)
+void Game::RedPacmanOnGhost()
+{
+    if (pacman->GetX() == ghostr->x && pacman->GetY() == ghostr->y)
+    {
+        pacman_dead = true;
+        lifes--;
+    }
+}
+
+void Game::Draw(int level, Clock clock)
 {
     window->clear();
     DrawField();
     pacman->DrawPacman(window, pacmanp);
     ghostp->DrawGhost(window, ghost1);
     ghostb->DrawGhost(window, ghost2);
+    ghostr->DrawGhost(window, ghost3);
+    if (clock.getElapsedTime().asSeconds() < 2.0f && level == 1) pacman->DrawLevel(window, level1);
+    if (clock.getElapsedTime().asSeconds() < 2.0f && level == 2) pacman->DrawLevel(window, level2);
+    if (clock.getElapsedTime().asSeconds() < 2.0f && level == 3) pacman->DrawLevel(window, level3);
+    if (clock.getElapsedTime().asSeconds() < 2.0f && level == 4) pacman->DrawLevel(window, level4);
+    if (pacman->GetScore() == 1445) pacman->DrawLevel(window, youwon);
+    if (lifes == 0) pacman->DrawLevel(window, gameover);
     DrawLifes();
     DrawScore();  
     window->display();
@@ -237,14 +315,25 @@ Game::~Game()
     delete life;
     delete lostlife;
     delete dot;
+    delete ghost1;
+    delete ghost2;
+    delete ghost3;
+    delete level1;
+    delete level2;
+    delete level3;
+    delete level4;
+    delete youwon;
+    delete gameover;
 	delete texture;
 	delete sprite;
     delete pacman;
     delete ghostp;
     delete ghostb;
+    delete ghostr;
     delete map;
 	delete window;
     delete font;
     delete texts;
     delete textl;
+    delete clock;
 }

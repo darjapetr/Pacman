@@ -41,3 +41,12 @@ public:
 	void DrawGhost(RenderWindow* window, Image* ghost2) const override;
 	void Move() override;
 };
+
+class Red : public GhostBasic
+{
+public:
+	Red(int start_x, int start_y);
+	void ReadData() override;
+	void DrawGhost(RenderWindow* window, Image* ghost3) const override;
+	void Move() override;
+};
