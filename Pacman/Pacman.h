@@ -16,6 +16,10 @@ private:
 	Sprite* sprite;
 	Texture* ltexture;
 	Sprite* lsprite;
+	Texture* dtexture;
+	Sprite* dsprite;
+	Texture* litexture;
+	Sprite* lisprite;
 
 public:
 	enum class Direction { UP, DOWN, RIGHT, LEFT };
@@ -26,7 +30,7 @@ public:
 	Pacman(int start_x, int start_y, int start_level);
 	~Pacman();
 
-	void DrawPacman(RenderWindow* window, Image* pacman) const;
+	void DrawPacman(RenderWindow* window, Image* pacmanr, Image* pacmanl, Image* pacmanu, Image* pacmand, Direction& direction) const;
 	void DrawDot(RenderWindow* window, Image* dot, int row, int col) const;
 	void DrawLife1(RenderWindow* window, Image* life) const;
 	void DrawLife2(RenderWindow* window, Image* life) const;

@@ -10,7 +10,7 @@ Pacman::Pacman(int start_x, int start_y, int start_level)
 	x = start_x;
 	y = start_y;
 	level = start_level;
-	Direction::RIGHT; 
+	direction = Direction::RIGHT; 
 	score = 1;
 }
 
@@ -18,11 +18,20 @@ Pacman::~Pacman()
 {
 	delete texture;
 	delete sprite;
+	delete ltexture;
+	delete lsprite;
+	delete dtexture;
+	delete dsprite;
+	delete litexture;
+	delete lisprite;
 }
 
-void Pacman::DrawPacman(RenderWindow* window, Image* pacman) const
+void Pacman::DrawPacman(RenderWindow* window, Image* pacmanr, Image* pacmanl, Image* pacmanu, Image* pacmand, Direction& direction) const
 {
-	texture->loadFromImage(*pacman);
+	if (direction == Direction::LEFT) texture->loadFromImage(*pacmanl);
+	else if (direction == Direction::RIGHT) texture->loadFromImage(*pacmanr);
+	else if (direction == Direction::DOWN) texture->loadFromImage(*pacmand);
+	else if (direction == Direction::UP) texture->loadFromImage(*pacmanu);
 	sprite->setTexture(*texture);
 	sprite->setScale(Vector2f(0.55f, 0.55f));
 	sprite->setPosition(x * 25, y * 25);
@@ -31,11 +40,11 @@ void Pacman::DrawPacman(RenderWindow* window, Image* pacman) const
 
 void Pacman::DrawDot(RenderWindow* window, Image* dot, int row, int col) const
 {
-	texture->loadFromImage(*dot);
-	sprite->setTexture(*texture);
-	sprite->setScale(Vector2f(0.5f, 0.5f));
-	sprite->setPosition(col * 25, row * 25);
-	window->draw(*sprite);
+	dtexture->loadFromImage(*dot);
+	dsprite->setTexture(*dtexture);
+	dsprite->setScale(Vector2f(0.5f, 0.5f));
+	dsprite->setPosition(col * 25, row * 25);
+	window->draw(*dsprite);
 }
 
 void Pacman::ReadData()
@@ -63,6 +72,10 @@ void Pacman::Init()
 	sprite = new Sprite;
 	ltexture = new Texture;
 	lsprite = new Sprite;
+	dtexture = new Texture;
+	dsprite = new Sprite;
+	litexture = new Texture;
+	lisprite = new Sprite;
 }
 
 int Pacman::GetX() 
@@ -162,29 +175,29 @@ void Pacman::RestartDots()
 
 void Pacman::DrawLife1(RenderWindow* window, Image* life) const
 {
-	texture->loadFromImage(*life);
-	sprite->setTexture(*texture);
-	sprite->setScale(Vector2f(0.8f, 0.8f));
-	sprite->setPosition(335, 792);
-	window->draw(*sprite);
+	litexture->loadFromImage(*life);
+	lisprite->setTexture(*litexture);
+	lisprite->setScale(Vector2f(0.8f, 0.8f));
+	lisprite->setPosition(335, 792);
+	window->draw(*lisprite);
 }
 
 void Pacman::DrawLife2(RenderWindow* window, Image* life) const
 {
-	texture->loadFromImage(*life);
-	sprite->setTexture(*texture);
-	sprite->setScale(Vector2f(0.8f, 0.8f));
-	sprite->setPosition(385, 792);
-	window->draw(*sprite);
+	litexture->loadFromImage(*life);
+	lisprite->setTexture(*litexture);
+	lisprite->setScale(Vector2f(0.8f, 0.8f));
+	lisprite->setPosition(385, 792);
+	window->draw(*lisprite);
 }
 
 void Pacman::DrawLife3(RenderWindow* window, Image* life) const
 {
-	texture->loadFromImage(*life);
-	sprite->setTexture(*texture);
-	sprite->setScale(Vector2f(0.8f, 0.8f));
-	sprite->setPosition(435, 792);
-	window->draw(*sprite);
+	litexture->loadFromImage(*life);
+	lisprite->setTexture(*litexture);
+	lisprite->setScale(Vector2f(0.8f, 0.8f));
+	lisprite->setPosition(435, 792);
+	window->draw(*lisprite);
 }
 
 void Pacman::DrawLevel(RenderWindow* window, Image* level1) const

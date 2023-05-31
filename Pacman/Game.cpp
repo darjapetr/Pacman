@@ -13,8 +13,14 @@ void Game::Init()
     }
 
     {
-        pacmanp = new Image;
-        if (!pacmanp->loadFromFile("data/pacman.png")) THROW;
+        pacmanr = new Image;
+        if (!pacmanr->loadFromFile("data/pacmanr.png")) THROW;
+        pacmanl = new Image;
+        if (!pacmanl->loadFromFile("data/pacmanl.png")) THROW;
+        pacmand = new Image;
+        if (!pacmand->loadFromFile("data/pacmand.png")) THROW;
+        pacmanu = new Image;
+        if (!pacmanu->loadFromFile("data/pacmanu.png")) THROW;
     }
 
     {
@@ -83,7 +89,8 @@ void Game::Init()
     }
 
     {
-        window = new RenderWindow(VideoMode(800, 850), "Pacman Game");
+        window = new RenderWindow(VideoMode(800, 850), "Pacman");
+        window->setFramerateLimit(150);
     }
 
     {
@@ -293,7 +300,7 @@ void Game::Draw(int level, Clock clock)
 {
     window->clear();
     DrawField();
-    pacman->DrawPacman(window, pacmanp);
+    pacman->DrawPacman(window, pacmanr, pacmanl, pacmanu, pacmand, pacman->direction);
     ghostp->DrawGhost(window, ghost1);
     ghostb->DrawGhost(window, ghost2);
     ghostr->DrawGhost(window, ghost3);
@@ -311,7 +318,10 @@ void Game::Draw(int level, Clock clock)
 Game::~Game()
 {
 	delete border;
-    delete pacmanp;
+    delete pacmanr;
+    delete pacmand;
+    delete pacmanu;
+    delete pacmanl;
     delete life;
     delete lostlife;
     delete dot;

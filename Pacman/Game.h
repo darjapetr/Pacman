@@ -12,7 +12,10 @@ class Game
 {
 private:
 	Image* border;
-	Image* pacmanp;
+	Image* pacmanr;
+	Image* pacmanl;
+	Image* pacmand;
+	Image* pacmanu;
 	Image* dot;
 	Image* ghost1;
 	Image* ghost2;
